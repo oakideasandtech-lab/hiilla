@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rider Onboarding - HIILLA - Bike Delivery Faster Than Anyone Else.</title>
+  <meta name="description" content="Start to work your time! Complete the HIILLA rider onboarding form to become a dispatch rider." />
+  <link rel="canonical" href="https://hiilla.com/rider-onboarding-form/" />
+  <link rel="icon" href="assets/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-nav="rider">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="site-header-mount"></div>
+
+  <main id="main" class="section">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:48px;">
+        <h1>Rider Onboarding</h1>
+        <h2 style="font-size:24px;margin-top:16px;">Start to work your time!</h2>
+      </div>
+
+      <div class="form-panel">
+        <form id="rider-form" class="onboarding-form" novalidate>
+          <fieldset style="border:none;margin:0;padding:0;">
+            <h3 style="font-size:18px;margin-bottom:16px;">Personal Information</h3>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="rider-first">First Name *</label>
+                <input type="text" id="rider-first" name="first_name" autocomplete="given-name" required />
+              </div>
+              <div class="form-field">
+                <label for="rider-last">Last Name *</label>
+                <input type="text" id="rider-last" name="last_name" autocomplete="family-name" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="rider-email">Email Address *</label>
+                <input type="email" id="rider-email" name="email" autocomplete="email" required />
+              </div>
+              <div class="form-field">
+                <label for="rider-phone">Phone Number *</label>
+                <input type="tel" id="rider-phone" name="phone" autocomplete="tel" required />
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="rider-address">Home Address</label>
+              <input type="text" id="rider-address" name="address" autocomplete="street-address" />
+            </div>
+          </fieldset>
+
+          <fieldset style="border:none;margin:0;padding:0;">
+            <h3 style="font-size:18px;margin:24px 0 16px;">Driver & Vehicle Information</h3>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="rider-license">Driver&rsquo;s License Number *</label>
+                <input type="text" id="rider-license" name="license" required />
+              </div>
+              <div class="form-field">
+                <label for="rider-vehicle">Vehicle Type *</label>
+                <select id="rider-vehicle" name="vehicle_type" required>
+                  <option value="">Select vehicle type</option>
+                  <option value="bike">Bike / Motorcycle</option>
+                  <option value="scooter">Scooter</option>
+                  <option value="car">Car</option>
+                  <option value="van">Van</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="rider-plate">Plate Number</label>
+                <input type="text" id="rider-plate" name="plate_number" />
+              </div>
+              <div class="form-field">
+                <label for="rider-experience">Years of Driving Experience</label>
+                <input type="number" id="rider-experience" name="experience" min="0" />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset style="border:none;margin:0;padding:0;">
+            <h3 style="font-size:18px;margin:24px 0 16px;">Availability</h3>
+            <div class="form-field">
+              <label>Preferred working hours</label>
+              <div class="form-radio-group" style="flex-wrap:wrap;">
+                <label><input type="checkbox" name="availability" value="day" /> Day</label>
+                <label><input type="checkbox" name="availability" value="night" /> Night</label>
+                <label><input type="checkbox" name="availability" value="weekend" /> Weekends</label>
+                <label><input type="checkbox" name="availability" value="full-time" /> Full time</label>
+                <label><input type="checkbox" name="availability" value="part-time" /> Part time</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-field">
+            <button type="submit" class="btn">Submit Application</button>
+          </div>
+          <p id="rider-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer-mount"></div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById("rider-form");
+      var status = document.getElementById("rider-status");
+      if (!form || !status) return;
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        status.textContent = "Thank you! Your rider application has been received. We will contact you soon.";
+        status.style.color = "#27ae60";
+        form.reset();
+        window.location.href = "thank-you-for-onboarding.html";
+      });
+    })();
+  </script>
+</body>
+</html>

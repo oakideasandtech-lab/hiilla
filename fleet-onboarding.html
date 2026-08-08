@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fleet Onboarding - HIILLA - Bike Delivery Faster Than Anyone Else.</title>
+  <meta name="description" content="Onboard your fleet with HIILLA Transit Services. Complete the fleet onboarding form to get started." />
+  <link rel="canonical" href="https://hiilla.com/fleet-onboarding/" />
+  <link rel="icon" href="assets/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-nav="fleet">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="site-header-mount"></div>
+
+  <main id="main" class="section">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:48px;">
+        <h1>Fleet Onboarding</h1>
+        <h2 style="font-size:24px;margin-top:16px;">Onboard As A Fleet</h2>
+      </div>
+
+      <div class="form-panel">
+        <form id="fleet-form" class="onboarding-form" novalidate>
+          <fieldset style="border:none;margin:0;padding:0;">
+            <h3 style="font-size:18px;margin-bottom:16px;">Fleet / Business Information</h3>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="fleet-name">Fleet / Business Name *</label>
+                <input type="text" id="fleet-name" name="fleet_name" required />
+              </div>
+              <div class="form-field">
+                <label for="fleet-registration">Registration Number</label>
+                <input type="text" id="fleet-registration" name="registration_no" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="fleet-contact">Contact Person *</label>
+                <input type="text" id="fleet-contact" name="contact_person" required />
+              </div>
+              <div class="form-field">
+                <label for="fleet-email">Email Address *</label>
+                <input type="email" id="fleet-email" name="email" autocomplete="email" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="fleet-phone">Phone Number *</label>
+                <input type="tel" id="fleet-phone" name="phone" autocomplete="tel" required />
+              </div>
+              <div class="form-field">
+                <label for="fleet-address">Office Address</label>
+                <input type="text" id="fleet-address" name="address" autocomplete="street-address" />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset style="border:none;margin:0;padding:0;">
+            <h3 style="font-size:18px;margin:24px 0 16px;">Fleet Details</h3>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="fleet-count">Number of Vehicles *</label>
+                <input type="number" id="fleet-count" name="vehicle_count" min="1" required />
+              </div>
+              <div class="form-field">
+                <label for="fleet-vehicle-type">Vehicle Type</label>
+                <select id="fleet-vehicle-type" name="vehicle_type">
+                  <option value="bike">Bike / Motorcycle</option>
+                  <option value="scooter">Scooter</option>
+                  <option value="car">Car</option>
+                  <option value="van">Van</option>
+                  <option value="mixed">Mixed Fleet</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="fleet-notes">Additional Notes</label>
+              <textarea id="fleet-notes" name="notes"></textarea>
+            </div>
+          </fieldset>
+
+          <div class="form-field">
+            <button type="submit" class="btn">Submit Fleet Application</button>
+          </div>
+          <p id="fleet-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer-mount"></div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById("fleet-form");
+      var status = document.getElementById("fleet-status");
+      if (!form || !status) return;
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        status.textContent = "Thank you! Your fleet application has been received. We will contact you soon.";
+        status.style.color = "#27ae60";
+        form.reset();
+        window.location.href = "thank-you-for-onboarding.html";
+      });
+    })();
+  </script>
+</body>
+</html>
