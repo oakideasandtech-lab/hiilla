@@ -1,0 +1,21 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Logs / temp
+*.log
+*.tmp
+*.swp
+
+# Archived WordPress originals (kept in git for reference, not deployed)
+original/
+hiilla-homepage.html
+wp-sitemap.xml
+sitemap-*.xml
