@@ -742,6 +742,12 @@ body.nav-open {
     transform: translateX(0);
   }
 
+  /* Hide the hamburger toggle while the drawer is open */
+  .site-nav.is-open ~ .nav-toggle,
+  body.nav-open .nav-toggle {
+    display: none;
+  }
+
   .site-nav__links {
     flex-direction: column;
     align-items: flex-start;
