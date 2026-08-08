@@ -151,6 +151,8 @@ h6 { font-size: 14px; line-height: 1.6; }
   border: none;
   cursor: pointer;
   padding: 4px;
+  position: relative;
+  z-index: 110;
 }
 
 .nav-toggle svg {
@@ -159,6 +161,32 @@ h6 { font-size: 14px; line-height: 1.6; }
   stroke: var(--wp-text);
   fill: none;
   stroke-width: 1.5;
+}
+
+/* Overlay shown when the mobile nav drawer is open */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 95;
+}
+
+.nav-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Close button inside the mobile drawer (hidden on desktop) */
+.nav-close {
+  display: none;
+}
+
+/* Prevent body scroll while the mobile drawer is open */
+body.nav-open {
+  overflow: hidden;
 }
 
 /* ============================================================
@@ -685,6 +713,29 @@ h6 { font-size: 14px; line-height: 1.6; }
     box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
     z-index: 100;
     overflow-y: auto;
+  }
+
+  .site-nav.is-open .nav-close {
+    display: inline-flex;
+  }
+
+  /* Close button inside the drawer */
+  .nav-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--wp-text);
+  }
+
+  .nav-close svg {
+    width: 28px;
+    height: 28px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
   }
 
   .site-nav.is-open {

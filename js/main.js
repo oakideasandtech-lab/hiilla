@@ -1,16 +1,18 @@
 /* ============================================================
    HIILLA static site — main.js
-   - Mobile navigation toggle
+   - Mobile navigation drawer (open / close)
    - Fare calculator (same-day / instant)
+   - Auto-updating copyright year
    ============================================================ */
 
 (function () {
   "use strict";
 
-  /* ---------- Mobile navigation ---------- */
+  /* ==========================================================
+     Mobile navigation
+     ========================================================== */
   var navToggle = document.querySelector(".nav-toggle");
   var siteNav = document.querySelector(".site-nav");
-  var navLinks = document.querySelectorAll(".site-nav__links a");
   var navOverlay = document.querySelector(".nav-overlay");
 
   function closeNav() {
@@ -18,6 +20,7 @@
     siteNav.classList.remove("is-open");
     if (navOverlay) navOverlay.classList.remove("is-open");
     document.body.classList.remove("nav-open");
+    if (navToggle) navToggle.setAttribute("aria-expanded", "false");
   }
 
   function openNav() {
@@ -25,35 +28,65 @@
     siteNav.classList.add("is-open");
     if (navOverlay) navOverlay.classList.add("is-open");
     document.body.classList.add("nav-open");
+    if (navToggle) navToggle.setAttribute("aria-expanded", "true");
   }
 
-  if (navToggle && siteNav) {
+  if (siteNav) {
+    // Add a close button inside the drawer (works on every page)
+    if (!siteNav.querySelector(".nav-close")) {
+      var closeBtn = document.createElement("button");
+      closeBtn.className = "nav-close";
+      closeBtn.setAttribute("type", "button");
+      closeBtn.setAttribute("aria-label", "Close menu");
+      closeBtn.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false">' +
+        '<path d="m13.06 12 6.47-6.47-1.06-1.06L12 10.94 5.53 4.47 4.47 5.53 10.94 12l-6.47 6.47 1.06 1.06L12 13.06l6.47 6.47 1.06-1.06L13.06 12Z"></path>' +
+        "</svg>";
+      siteNav.appendChild(closeBtn);
+      closeBtn.addEventListener("click", closeNav);
+    }
+
+    // Close when any navigation link is clicked
+    var navLinks = siteNav.querySelectorAll(".site-nav__links a");
+    navLinks.forEach(function (link) {
+      link.addEventListener("click", closeNav);
+    });
+  }
+
+  // Toggle open / close
+  if (navToggle) {
     navToggle.addEventListener("click", function (e) {
       e.stopPropagation();
-      if (siteNav.classList.contains("is-open")) {
+      if (siteNav && siteNav.classList.contains("is-open")) {
         closeNav();
       } else {
         openNav();
       }
     });
-
-    // Close when a navigation link is clicked
-    navLinks.forEach(function (link) {
-      link.addEventListener("click", closeNav);
-    });
-
-    // Close when clicking outside (on the overlay)
-    if (navOverlay) {
-      navOverlay.addEventListener("click", closeNav);
-    }
-
-    // Close on Escape
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") closeNav();
-    });
   }
 
-  /* ---------- Fare calculator ---------- */
+  // Close when clicking the overlay (outside the drawer)
+  if (navOverlay) {
+    navOverlay.addEventListener("click", closeNav);
+  }
+
+  // Close on Escape
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeNav();
+  });
+
+  /* ==========================================================
+     Auto-updating copyright year
+     ========================================================== */
+  var copyright = document.querySelector(".site-footer__copyright");
+  if (copyright) {
+    copyright.textContent =
+      "Copyright " + new Date().getFullYear() + " \u2013 HIILLA TRANSIT SERVICES";
+  }
+
+  /* ==========================================================
+     Fare calculator
+     ========================================================== */
   var fareForm = document.querySelector(".fare-form");
 
   if (fareForm) {
@@ -137,7 +170,6 @@
         geocode(toVal, "to");
       } else {
         // Fallback: estimate distance from the number of words / length.
-        // Rough heuristic — prompt the user to use text input when offline.
         distKm = Math.max(1, Math.round((fromVal.length + toVal.length) / 12));
         renderResult(distKm, rate, "estimate");
       }
@@ -166,7 +198,7 @@
         '<p class="fare-result__line">Approximate distance: <strong>' +
         distKm +
         " km</strong></p>" +
-        '<p class="fare-result__line">Estimated fare: <strong>₦' +
+        '<p class="fare-result__line">Estimated fare: <strong>\u20A6' +
         formatNaira(estimated) +
         "</strong></p>" +
         '<p class="fare-result__note">' +
