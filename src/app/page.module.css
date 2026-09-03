@@ -1,162 +1,508 @@
-.hero {
+/* ── 1. Hero Section ── */
+.heroSection {
   position: relative;
-  min-height: 90vh;
+  min-height: 92vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+  padding: 80px 24px 100px;
   background-image: url('/assets/hero-bike.jpg');
   background-size: cover;
   background-position: center;
-  color: #ffffff;
-  padding: 60px 24px;
-  text-align: center;
+  overflow: hidden;
 }
 
-.heroOverlay {
+.heroBackdrop {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.78) 100%);
-}
-
-.heroContent {
-  position: relative;
+  background: linear-gradient(135deg, rgba(11, 17, 32, 0.92) 0%, rgba(15, 23, 42, 0.88) 50%, rgba(229, 35, 42, 0.45) 100%);
   z-index: 1;
-  max-width: 900px;
+}
+
+.heroContainer {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
   width: 100%;
 }
 
-.heroTitle {
-  color: #ffffff;
-  font-size: clamp(34px, 5.5vw, 62px);
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
-}
-
-.heroLead {
-  margin-top: 24px;
-  font-size: 22px;
-  color: #f1f5f9;
-}
-
-.heroBadges {
-  margin-top: 28px;
-}
-
-/* App Screens */
-.screenCards {
+.heroGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 32px;
-  justify-content: center;
-}
-
-.screenCard {
-  text-align: center;
-}
-
-.screenImageWrap {
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  display: inline-block;
-  background: #f1f5f9;
-}
-
-.screenImg {
-  width: 100%;
-  max-width: 320px;
-  height: auto;
-  display: block;
-}
-
-.screenCaption {
-  margin-top: 16px;
-  font-size: 15px;
-  color: #475569;
-  font-weight: 500;
-}
-
-/* Stats */
-.statsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 40px;
-  margin-top: 24px;
-}
-
-.statBox {
-  padding: 24px;
-  border-radius: 12px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-}
-
-.statValue {
-  font-size: clamp(36px, 4vw, 52px);
-  font-weight: 800;
-  color: #e5232a;
-  line-height: 1.1;
-}
-
-.statLabel {
-  margin-top: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #475569;
-}
-
-/* Business Feature */
-.featureGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 48px;
+  grid-template-columns: 1.2fr 0.9fr;
+  gap: 56px;
   align-items: center;
 }
 
-.featureMedia {
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+.heroContent {
+  color: #FFFFFF;
 }
 
-.featureImg {
+.heroHeadline {
+  color: #FFFFFF;
+  font-size: clamp(38px, 5.5vw, 62px);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+
+.highlightRed {
+  color: #E5232A;
+  background: linear-gradient(135deg, #FF6B6B 0%, #E5232A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.heroSubtext {
+  color: #E2E8F0;
+  font-size: 1.12rem;
+  line-height: 1.7;
+  max-width: 540px;
+  margin-bottom: 32px;
+}
+
+.heroBadgesWrap {
+  margin-bottom: 36px;
+}
+
+.heroTrustBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.trustItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #F8FAFC;
+}
+
+.trustIcon {
+  font-size: 1.1rem;
+}
+
+/* ── Hero Quick Estimator Card ── */
+.heroWidgetWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.calcCard {
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 36px 32px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #0F172A;
+}
+
+.calcHeader {
+  margin-bottom: 24px;
+}
+
+.calcBadge {
+  display: inline-block;
+  background-color: #FEE2E2;
+  color: #E5232A;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  margin-bottom: 10px;
+}
+
+.calcHeader h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  color: #0F172A;
+}
+
+.calcHeader p {
+  font-size: 0.85rem;
+  color: #64748B;
+}
+
+.calcForm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.inputGroup label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.inputField {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  transition: all 0.2s ease;
+}
+
+.inputField:focus-within {
+  background-color: #FFFFFF;
+  border-color: #E5232A;
+  box-shadow: 0 0 0 3px rgba(229, 35, 42, 0.15);
+}
+
+.inputField input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #0F172A;
+  outline: none;
+}
+
+.fieldDotGreen {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #059669;
+  flex-shrink: 0;
+}
+
+.fieldDotRed {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #E5232A;
+  flex-shrink: 0;
+}
+
+.calcResult {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: #FEF2F2;
+  border-radius: 14px;
+  border: 1px solid #FECACA;
+  text-align: center;
+}
+
+.resultLabel {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #991B1B;
+  text-transform: uppercase;
+}
+
+.resultAmount {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #E5232A;
+  margin: 4px 0;
+}
+
+/* ── 2. Metric Counters Bar ── */
+.statsBar {
+  background-color: #0B1120;
+  color: #FFFFFF;
+  padding: 48px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
+  text-align: center;
+}
+
+.statCard {
+  padding: 12px;
+}
+
+.statNumber {
+  color: #E5232A;
+  font-size: clamp(32px, 3.5vw, 44px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.statLabel {
+  color: #94A3B8;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+/* ── 3. App Experience Grid ── */
+.appGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 36px;
+}
+
+.appStepCard {
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  padding: 32px 24px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.appStepCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+  border-color: #CBD5E1;
+}
+
+.stepPill {
+  display: inline-block;
+  background-color: #0B1120;
+  color: #FFFFFF;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 4px 14px;
+  border-radius: 9999px;
+  margin-bottom: 20px;
+}
+
+.screenFrame {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+  max-width: 260px;
+  background-color: #F1F5F9;
+}
+
+.screenImage {
   width: 100%;
   height: auto;
   display: block;
 }
 
-.featureBody h4 {
-  font-size: 22px;
-  line-height: 1.45;
-  margin-bottom: 20px;
-  color: #0f172a;
+.stepTitle {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #0F172A;
 }
 
-.featureList {
-  margin: 0 0 28px 20px;
-  color: #475569;
-}
-
-.featureList li {
-  margin-bottom: 12px;
+.stepDesc {
+  font-size: 0.92rem;
+  color: #64748B;
   line-height: 1.6;
 }
 
-/* Video */
-.videoWrapper {
-  position: relative;
-  width: 100%;
-  max-width: 680px;
-  margin: 0 auto;
-  padding-top: 56.25%;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+/* ── 4. Business Section ── */
+.businessGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
 }
 
-.videoWrapper iframe {
+.businessMediaWrap {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+}
+
+.businessImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mediaFloatCard {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  background: rgba(11, 17, 32, 0.94);
+  backdrop-filter: blur(12px);
+  color: #FFFFFF;
+  padding: 14px 20px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.floatDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #E5232A;
+}
+
+.mediaFloatCard strong {
+  display: block;
+  font-size: 0.9rem;
+}
+
+.mediaFloatCard p {
+  font-size: 0.78rem;
+  color: #94A3B8;
+  margin: 0;
+}
+
+.businessContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.businessIntro {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 16px 0 24px;
+  color: #475569;
+}
+
+.featurePillsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.checkCircle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #FEE2E2;
+  color: #E5232A;
+  font-weight: 900;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── 5. Bento Grid ── */
+.bentoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.bentoCard {
+  background-color: #FFFFFF;
+  border-radius: 28px;
+  padding: 40px 36px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bentoCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.bentoHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.bentoIconWrap {
+  font-size: 2.2rem;
+}
+
+.bentoPill {
+  background-color: #F1F5F9;
+  color: #334155;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 9999px;
+}
+
+.bentoCard h3 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #0F172A;
+}
+
+.bentoCard p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #64748B;
+  margin-bottom: 20px;
+}
+
+.bentoList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.bentoList li {
+  font-size: 0.88rem;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bentoList li::before {
+  content: '✓';
+  color: #E5232A;
+  font-weight: 800;
+}
+
+/* ── 6. Video Section ── */
+.videoCard {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding-top: 56.25%;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.videoCard iframe {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -164,16 +510,43 @@
   border: 0;
 }
 
-/* CTA */
-.ctaBanner {
-  background: #0b1120;
-  color: #ffffff;
+/* ── 7. CTA Banner ── */
+.ctaSection {
+  background: linear-gradient(135deg, #0B1120 0%, #111827 60%, #E5232A 140%);
+  color: #FFFFFF;
   padding: 100px 24px;
 }
 
 .ctaTitle {
-  color: #ffffff;
-  font-size: clamp(32px, 5vw, 56px);
-  font-weight: 800;
+  color: #FFFFFF;
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 900;
   line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.ctaSubtitle {
+  color: #E2E8F0;
+  font-size: 1.15rem;
+  max-width: 580px;
+  margin: 0 auto 36px;
+}
+
+.ctaBadgesWrap {
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .heroGrid,
+  .businessGrid,
+  .bentoGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .heroHeadline {
+    font-size: 36px;
+  }
 }
