@@ -1,62 +1,36 @@
-# HIILLA - Bike Delivery Faster Than Anyone Else.
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Static website for [hiilla.com](https://hiilla.com) - an e-hailing bike delivery service providing a central platform to third-party dispatch companies and individuals easing the problems of delivery service across major cities in Lagos.
+## Getting Started
 
-## About
+First, run the development server:
 
-This is a static HTML/CSS/JS rebuild of the former WordPress site. It is fully static and can be hosted on any static hosting platform (GitHub Pages, Netlify, Vercel, Cloudflare Pages, etc.). The site is managed with Git.
-
-## Pages
-
-| Page | File |
-|------|------|
-| Home | `index.html` |
-| Become A Dispatch | `become-a-rider.html` |
-| Become A Fleet | `become-a-fleet.html` |
-| Contact | `contact.html` |
-| Delivery Fare Estimates | `fare.html` |
-| Rider Onboarding | `rider-onboarding-form.html` |
-| Fleet Onboarding | `fleet-onboarding.html` |
-| Newsletter Signup | `newsletter-signup.html` |
-| Thank You | `thank-you-for-onboarding.html` |
-| Privacy Policy | `privacy-policy.html` |
-| Terms & Conditions | `terms-and-conditions.html` |
-
-## Structure
-
-```
-.
-├── index.html                  # Home page
-├── *.html                      # Inner pages
-├── css/
-│   └── style.css               # Global styles
-├── js/
-│   ├── layout.js               # Injects shared header/footer
-│   └── main.js                 # Nav toggle + fare calculator
-├── assets/                     # Images, logos, favicons
-└── original/                   # Archived snapshot of the original WordPress pages
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-## Development
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-No build step or dependencies are required. Simply open `index.html` in a browser, or serve the folder locally:
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-```
-python -m http.server 8080
-```
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Layout System
+## Learn More
 
-The shared header and footer are injected via `js/layout.js` using `#site-header-mount` and `#site-footer-mount` placeholder divs. To edit the site-wide navigation or footer, update `js/layout.js` once - every page picks up the change automatically.
+To learn more about Next.js, take a look at the following resources:
 
-Each page sets `data-nav` on the `<body>` tag (e.g. `data-nav="rider"`) to highlight the active link in the navigation.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Notes
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-- The fare calculator (`fare.html`) provides a client-side estimate based on the same-day / instant delivery type options present on the original site.
-- The contact, onboarding, and newsletter forms are static HTML with client-side validation. They do not send data anywhere; connect them to a form backend (Formspree, Netlify Forms, etc.) for real submissions.
-- The former WooCommerce store pages (shop, cart, checkout, my-account) are not included in this static build.
+## Deploy on Vercel
 
-## License
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-&copy; HIILLA TRANSIT SERVICES. All rights reserved.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
