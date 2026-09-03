@@ -2,17 +2,13 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #F1F5F9;
+  transition: all 0.2s ease;
 }
 
 .headerScrolled {
-  background-color: rgba(255, 255, 255, 0.98);
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
-  border-bottom-color: rgba(15, 23, 42, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .inner {
@@ -27,75 +23,68 @@
 .logo {
   display: inline-flex;
   align-items: center;
-  transition: opacity 0.2s;
 }
 
-.logo:hover {
-  opacity: 0.9;
-}
-
-.desktopNav {
+.nav {
   display: flex;
   align-items: center;
+  gap: 36px;
 }
 
 .links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 28px;
   list-style: none;
-  background-color: #F8FAFC;
-  padding: 6px 8px;
-  border-radius: 9999px;
-  border: 1px solid #E2E8F0;
 }
 
 .link {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: #475569;
-  padding: 8px 16px;
-  border-radius: 9999px;
-  transition: all 0.18s ease;
-  display: inline-block;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1E293B;
+  transition: color 0.18s ease;
+  position: relative;
+  padding: 4px 0;
 }
 
 .link:hover {
-  color: #0F172A;
-  background-color: #F1F5F9;
+  color: #E5232A;
 }
 
 .activeLink {
-  color: #FFFFFF !important;
-  background-color: #0B1120 !important;
-  box-shadow: 0 2px 8px rgba(11, 17, 32, 0.25);
+  color: #E5232A !important;
+  font-weight: 700;
 }
 
-.actions {
+.activeLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #E5232A;
+  border-radius: 2px;
+}
+
+.socials {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
+  list-style: none;
+  padding-left: 24px;
+  border-left: 1px solid #E2E8F0;
 }
 
-.ctaButton {
+.socials a {
+  color: #64748B;
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background-color: #E5232A;
-  color: #FFFFFF;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 0.88rem;
-  text-decoration: none;
-  box-shadow: 0 4px 14px rgba(229, 35, 42, 0.35);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.18s ease;
 }
 
-.ctaButton:hover {
-  background-color: #C81E24;
+.socials a:hover {
+  color: #E5232A;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(229, 35, 42, 0.45);
 }
 
 .toggle {
@@ -109,7 +98,7 @@
 }
 
 .toggle:hover {
-  background-color: #F1F5F9;
+  background-color: #F8FAFC;
 }
 
 /* Mobile Drawer */
@@ -117,8 +106,8 @@
   display: none;
 }
 
-@media (max-width: 900px) {
-  .desktopNav {
+@media (max-width: 860px) {
+  .nav {
     display: none;
   }
 
@@ -130,7 +119,7 @@
     display: flex;
     flex-direction: column;
     position: fixed;
-    top: 71px;
+    top: 73px;
     left: 0;
     right: 0;
     background-color: #FFFFFF;
@@ -140,7 +129,7 @@
     transform: translateY(-120%);
     opacity: 0;
     pointer-events: none;
-    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.25s ease;
     z-index: 999;
   }
 
@@ -153,52 +142,29 @@
   .mobileLinks {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
     list-style: none;
   }
 
   .mobileLink {
     display: block;
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 1.05rem;
+    font-weight: 600;
     color: #334155;
-    padding: 12px 16px;
-    border-radius: 10px;
-    transition: all 0.15s ease;
+    padding: 10px 14px;
+    border-radius: 8px;
   }
 
-  .mobileLink:hover {
-    background-color: #F8FAFC;
-    color: #E5232A;
-  }
-
+  .mobileLink:hover,
   .mobileActiveLink {
     background-color: #FEE2E2;
     color: #E5232A !important;
   }
 
-  .mobileCta {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid #F1F5F9;
-  }
-
-  .mobileCtaBtn {
-    display: block;
-    text-align: center;
-    background-color: #E5232A;
-    color: #FFFFFF;
-    padding: 13px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 0.95rem;
-  }
-
   .backdrop {
     position: fixed;
-    inset: 71px 0 0 0;
+    inset: 73px 0 0 0;
     background-color: rgba(15, 23, 42, 0.4);
-    backdrop-filter: blur(4px);
     z-index: 998;
   }
 }

@@ -1,381 +1,173 @@
-'use client';
-
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import AppBadges from '@/components/AppBadges';
-import { STATS, YOUTUBE_EMBED, APP_URL } from '@/lib/constants';
+import { YOUTUBE_EMBED } from '@/lib/constants';
 import styles from './page.module.css';
 
 export default function HomePage() {
-  const [pickup, setPickup] = useState('');
-  const [dropoff, setDropoff] = useState('');
-  const [estimate, setEstimate] = useState<number | null>(null);
-
-  const handleQuickEstimate = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!pickup || !dropoff) return;
-    const base = 1500;
-    const randomized = Math.floor(Math.random() * 900) + 300;
-    setEstimate(base + randomized);
-  };
-
   return (
     <>
-      {/* ── 1. Modern Hero Section ── */}
+      {/* ── 1. Centered Hero Section (Natural Photo + Transparent Overlay) ── */}
       <section className={styles.heroSection}>
-        <div className={styles.heroBackdrop} />
-        <div className={styles.heroContainer}>
-          <div className={styles.heroGrid}>
-            {/* Left Hero Content */}
-            <div className={styles.heroContent}>
-              <div className="badge-pill">
-                <span>⚡</span>
-                <span>#1 On-Demand Bike Dispatch in Lagos</span>
-              </div>
+        <div className={styles.heroOverlay} />
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroTitle}>
+            The fast, easy and,<br />
+            affordable way<br />
+            to deliver.
+          </h1>
 
-              <h1 className={styles.heroHeadline}>
-                The fast, easy &amp;<br />
-                <span className={styles.highlightRed}>affordable way</span><br />
-                to deliver.
-              </h1>
+          <p className={styles.heroLead}>
+            Download <strong>HIILLA XBid</strong>
+          </p>
 
-              <p className={styles.heroSubtext}>
-                Connect with 400+ vetted local dispatch riders in seconds. Instant pickup, real-time GPS telemetry, and seamless cashless payments anywhere in Lagos.
-              </p>
+          <span className={styles.downloadArrow}>↓</span>
 
-              {/* App Badges */}
-              <div className={styles.heroBadgesWrap}>
-                <AppBadges theme="dark" />
-              </div>
+          <div className={styles.heroBadges}>
+            <AppBadges theme="dark" />
+          </div>
 
-              {/* Trust Micro-Metrics */}
-              <div className={styles.heroTrustBadges}>
-                <div className={styles.trustItem}>
-                  <span className={styles.trustIcon}>⏱️</span>
-                  <span>15-30 Mins Avg Pickup</span>
-                </div>
-                <div className={styles.trustItem}>
-                  <span className={styles.trustIcon}>🛡️</span>
-                  <span>100% Insured Delivery</span>
-                </div>
-                <div className={styles.trustItem}>
-                  <span className={styles.trustIcon}>📍</span>
-                  <span>Live Rider Tracking</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Hero Quick Estimator Card */}
-            <div className={styles.heroWidgetWrap}>
-              <div className={styles.calcCard}>
-                <div className={styles.calcHeader}>
-                  <div className={styles.calcBadge}>
-                    <span>🚀 Quick Fare Calculator</span>
-                  </div>
-                  <h3>Estimate Your Delivery</h3>
-                  <p>Check instant dispatch pricing across Lagos</p>
-                </div>
-
-                <form onSubmit={handleQuickEstimate} className={styles.calcForm}>
-                  <div className={styles.inputGroup}>
-                    <label>Pickup Location</label>
-                    <div className={styles.inputField}>
-                      <span className={styles.fieldDotGreen} />
-                      <input
-                        type="text"
-                        placeholder="e.g. Admiralty Way, Lekki Phase 1"
-                        value={pickup}
-                        onChange={(e) => setPickup(e.target.value)}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className={styles.inputGroup}>
-                    <label>Drop-off Location</label>
-                    <div className={styles.inputField}>
-                      <span className={styles.fieldDotRed} />
-                      <input
-                        type="text"
-                        placeholder="e.g. Allen Avenue, Ikeja"
-                        value={dropoff}
-                        onChange={(e) => setDropoff(e.target.value)}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-                    Calculate Instant Fare
-                  </button>
-                </form>
-
-                {estimate !== null && (
-                  <div className={styles.calcResult}>
-                    <span className={styles.resultLabel}>Estimated Trip Cost:</span>
-                    <span className={styles.resultAmount}>₦{estimate.toLocaleString('en-US')}</span>
-                    <Link
-                      href={APP_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-secondary"
-                      style={{ width: '100%', marginTop: 12, padding: '10px 16px' }}
-                    >
-                      Book Delivery Now ↗
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </div>
+          <div className={styles.heroTrustPills}>
+            <span className={styles.trustPill}>⏱️ 15-30 Mins Avg Pickup</span>
+            <span className={styles.trustDot}>•</span>
+            <span className={styles.trustPill}>🛡️ 100% Insured Delivery</span>
+            <span className={styles.trustDot}>•</span>
+            <span className={styles.trustPill}>📍 Live GPS Tracking</span>
           </div>
         </div>
       </section>
 
-      {/* ── 2. Metric Counters Bar ── */}
-      <section className={styles.statsBar}>
+      {/* ── 2. App Screenshots Showcase ── */}
+      <section className="section">
         <div className="container">
-          <div className={styles.statsGrid}>
-            <div className={styles.statCard}>
-              <h3 className={styles.statNumber}>50,000+</h3>
-              <p className={styles.statLabel}>Parcels Delivered</p>
-            </div>
-            <div className={styles.statCard}>
-              <h3 className={styles.statNumber}>400+</h3>
-              <p className={styles.statLabel}>Verified Dispatch Riders</p>
-            </div>
-            <div className={styles.statCard}>
-              <h3 className={styles.statNumber}>1</h3>
-              <p className={styles.statLabel}>Mega Operating City (Lagos)</p>
-            </div>
-            <div className={styles.statCard}>
-              <h3 className={styles.statNumber}>99.4%</h3>
-              <p className={styles.statLabel}>On-Time Fulfillment Rate</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 3. App Experience & Workflow Showcase ── */}
-      <section className="section section-subtle">
-        <div className="container">
-          <div className="text-center" style={{ maxWidth: 700, margin: '0 auto 60px' }}>
-            <div className="badge-pill">
-              <span>📱</span>
-              <span>Simple 3-Step Process</span>
-            </div>
-            <h2>Delivery Made Simple with HIILLA</h2>
-            <p style={{ marginTop: 12, fontSize: '1.05rem' }}>
-              Everything you need to send packages, track riders live, and manage deliveries effortlessly from your pocket.
-            </p>
-          </div>
-
           <div className={styles.appGrid}>
-            {/* Step 1 */}
-            <div className={styles.appStepCard}>
-              <div className={styles.stepPill}>01. Set Locations</div>
+            <div className={styles.appCard}>
               <div className={styles.screenFrame}>
                 <Image
                   src="/assets/app-screen-1.jpg"
                   alt="Set delivery location"
                   width={319}
                   height={690}
-                  className={styles.screenImage}
+                  className={styles.screenImg}
                 />
               </div>
-              <h4 className={styles.stepTitle}>Enter Pickup &amp; Drop-off</h4>
-              <p className={styles.stepDesc}>
-                Input locations, select parcel type, and get matched with the closest active dispatch rider in seconds.
+              <p className={styles.screenCaption}>
+                Set your delivery location, get connected to available dispatch rider instantly.
               </p>
             </div>
 
-            {/* Step 2 */}
-            <div className={styles.appStepCard}>
-              <div className={styles.stepPill}>02. Live Tracking</div>
+            <div className={styles.appCard}>
               <div className={styles.screenFrame}>
                 <Image
                   src="/assets/app-screen-2.jpg"
                   alt="Delivery in progress"
                   width={319}
                   height={690}
-                  className={styles.screenImage}
+                  className={styles.screenImg}
                 />
               </div>
-              <h4 className={styles.stepTitle}>Real-Time GPS Telemetry</h4>
-              <p className={styles.stepDesc}>
-                Track your rider’s live route on the map as they pick up and transport your package safely.
+              <p className={styles.screenCaption}>
+                Delivery starts immediately the rider arrives and receives the package.
               </p>
             </div>
 
-            {/* Step 3 */}
-            <div className={styles.appStepCard}>
-              <div className={styles.stepPill}>03. Cashless Pay</div>
+            <div className={styles.appCard}>
               <div className={styles.screenFrame}>
                 <Image
                   src="/assets/app-screen-3.jpg"
                   alt="Payment options"
                   width={319}
                   height={690}
-                  className={styles.screenImage}
+                  className={styles.screenImg}
                 />
               </div>
-              <h4 className={styles.stepTitle}>Flexible In-App Payment</h4>
-              <p className={styles.stepDesc}>
-                Pay seamlessly with your digital wallet, bank transfer, or debit card upon fulfillment.
+              <p className={styles.screenCaption}>
+                However you like to pay? HIILLA is always available.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 4. Business & Merchant Solutions ── */}
+      {/* ── 3. Metric Stats Bar ── */}
+      <section className="section section-subtle">
+        <div className="container text-center">
+          <h2 style={{ marginBottom: 44 }}>
+            <strong>Delivery is what we do best.</strong>
+          </h2>
+          <div className={styles.statsGrid}>
+            <div className={styles.statCard}>
+              <h3 className={styles.statNumber}>50k+</h3>
+              <p className={styles.statLabel}>Deliveries</p>
+            </div>
+            <div className={styles.statCard}>
+              <h3 className={styles.statNumber}>1</h3>
+              <p className={styles.statLabel}>Operating city (Lagos)</p>
+            </div>
+            <div className={styles.statCard}>
+              <h3 className={styles.statNumber}>400+</h3>
+              <p className={styles.statLabel}>Riders and Partners</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 4. More Than Just An App ── */}
       <section className="section">
-        <div className="container">
-          <div className={styles.businessGrid}>
-            <div className={styles.businessMediaWrap}>
-              <Image
-                src="/assets/business-delivery.jpg"
-                alt="Business delivery dispatch"
-                width={580}
-                height={420}
-                className={styles.businessImg}
-              />
-              <div className={styles.mediaFloatCard}>
-                <span className={styles.floatDot} />
-                <div>
-                  <strong>Enterprise Ready</strong>
-                  <p>Bulk Dispatch &amp; Weekly Invoicing</p>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.businessContent}>
-              <div className="badge-pill">
-                <span>🏢</span>
-                <span>For E-Commerce &amp; Merchants</span>
-              </div>
-
-              <h2>Delivery Tailored for Every Business</h2>
-              <p className={styles.businessIntro}>
-                Scale your order volume without the stress of hiring in-house dispatch. Trust HIILLA to handle logistics while you focus on growing sales.
-              </p>
-
-              <div className={styles.featurePillsList}>
-                <div className={styles.featureItem}>
-                  <div className={styles.checkCircle}>✓</div>
-                  <div>
-                    <strong>Riders Always On Demand:</strong>
-                    <span> Never keep your customers waiting with multi-rider availability.</span>
-                  </div>
-                </div>
-
-                <div className={styles.featureItem}>
-                  <div className={styles.checkCircle}>✓</div>
-                  <div>
-                    <strong>Safe &amp; Insured Parcels:</strong>
-                    <span> Verified identities and secure parcel handling guaranteed.</span>
-                  </div>
-                </div>
-
-                <div className={styles.featureItem}>
-                  <div className={styles.checkCircle}>✓</div>
-                  <div>
-                    <strong>Transparent Distance Pricing:</strong>
-                    <span> True value for distance with zero hidden surcharges.</span>
-                  </div>
-                </div>
-
-                <div className={styles.featureItem}>
-                  <div className={styles.checkCircle}>✓</div>
-                  <div>
-                    <strong>Centralized Web Console:</strong>
-                    <span> Book, track, and dispatch directly from desktop browsers.</span>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ marginTop: 32, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-                <Link href={APP_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                  Open Business Console ↗
-                </Link>
-                <Link href="/contact" className="btn btn-outline">
-                  Talk to Sales
-                </Link>
-              </div>
-            </div>
-          </div>
+        <div className="container text-center" style={{ maxWidth: 780 }}>
+          <h2 style={{ marginBottom: 20 }}>
+            <strong>More Than Just an App</strong>
+          </h2>
+          <p style={{ fontSize: '1.15rem', lineHeight: 1.8 }}>
+            We are connecting individuals or businesses in need of every day delivery service with the best local dispatch drivers at the best prices. When you deliver with HIILLA, we do our best to make the delivery as seamless and secure as possible.
+          </p>
         </div>
       </section>
 
-      {/* ── 5. Opportunities Bento (Riders & Fleets) ── */}
+      {/* ── 5. Business Delivery Feature ── */}
       <section className="section section-subtle">
         <div className="container">
-          <div className="text-center" style={{ maxWidth: 680, margin: '0 auto 52px' }}>
-            <h2>Partner with HIILLA</h2>
-            <p style={{ marginTop: 12, fontSize: '1.05rem' }}>
-              Whether you are an independent dispatch rider or run a fleet of delivery bikes, HIILLA provides the orders, technology, and guaranteed payouts.
-            </p>
-          </div>
-
-          <div className={styles.bentoGrid}>
-            {/* Rider Card */}
-            <div className={styles.bentoCard}>
-              <div className={styles.bentoHeader}>
-                <div className={styles.bentoIconWrap}>🛵</div>
-                <div className={styles.bentoPill}>For Dispatch Riders</div>
-              </div>
-              <h3>Become a Dispatch Rider</h3>
-              <p>
-                Set your own working hours, receive non-stop delivery requests across Lagos, and maximize your daily earnings with dynamic trip bidding.
-              </p>
-              <ul className={styles.bentoList}>
-                <li>Daily and weekly cash withdrawals</li>
-                <li>Comprehensive 24/7 driver support &amp; trip insurance</li>
-                <li>Turn-by-turn in-app GPS navigation</li>
-              </ul>
-              <Link href="/become-a-rider" className="btn btn-primary" style={{ width: '100%', marginTop: 24 }}>
-                Join as a Rider
-              </Link>
+          <div className={styles.featureGrid}>
+            <div className={styles.featureMedia}>
+              <Image
+                src="/assets/business-delivery.jpg"
+                alt="HIILLA delivery rider"
+                width={560}
+                height={400}
+                className={styles.featureImg}
+              />
             </div>
-
-            {/* Fleet Operator Card */}
-            <div className={styles.bentoCard}>
-              <div className={styles.bentoHeader}>
-                <div className={styles.bentoIconWrap}>🏢</div>
-                <div className={styles.bentoPill}>For Fleet Owners</div>
-              </div>
-              <h3>Become a Fleet Partner</h3>
-              <p>
-                Connect your bikes and riders to the HIILLA platform. Monitor live trips, track fuel efficiency, and receive consolidated weekly settlements.
-              </p>
-              <ul className={styles.bentoList}>
-                <li>Live fleet telemetry &amp; rider status monitoring</li>
-                <li>Automated commission split &amp; weekly direct deposits</li>
-                <li>Tiered volume discounts for high-capacity operators</li>
+            <div className={styles.featureBody}>
+              <h3>
+                <strong>Delivery tailored for every business – onboard, set up orders, and trust ‘HIILLA Go’ to deliver.</strong>
+              </h3>
+              <ul className={styles.featureList}>
+                <li>Our Riders are always around the corner so you won’t be kept waiting on your next delivery.</li>
+                <li>Relax with the assurance that your parcel is not only safe but it is our number one priority.</li>
+                <li>Our Riders will navigate the best routes to ensure your delivery gets to the destination in time.</li>
+                <li>No matter the distance, we are cost-efficient and professional.</li>
+                <li>Our Riders accept cashless transactions alongside many other payment options available in-app.</li>
               </ul>
-              <Link href="/become-a-fleet" className="btn btn-secondary" style={{ width: '100%', marginTop: 24 }}>
-                Onboard Your Fleet
-              </Link>
+              <p style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: 16 }}>
+                Download <strong>HIILLA XBid</strong> to make your delivery:
+              </p>
+              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <AppBadges theme="dark" />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 6. Video Walkthrough ── */}
+      {/* ── 6. How-To Video ── */}
       <section className="section section-dark">
         <div className="container text-center">
-          <div className="badge-pill badge-pill-dark">
-            <span>🎥</span>
-            <span>Video Guide</span>
-          </div>
-          <h2 style={{ marginBottom: 12 }}>See HIILLA in Action</h2>
-          <p style={{ maxWidth: 600, margin: '0 auto 40px' }}>
-            Watch how easy it is to book deliveries, apply promo discounts, and manage orders with HIILLA.
-          </p>
-
-          <div className={styles.videoCard}>
+          <h3 style={{ marginBottom: 36, color: '#FFFFFF' }}>
+            <strong>How to videos</strong>
+          </h3>
+          <div className={styles.videoWrapper}>
             <iframe
-              title="How to Use HIILLA Delivery App"
+              title="Apply Coupon on HIILLAGo App"
               src={YOUTUBE_EMBED}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
@@ -385,18 +177,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 7. Call To Action Banner ── */}
+      {/* ── 7. Call To Action ── */}
       <section className={styles.ctaSection}>
         <div className="container text-center">
           <h2 className={styles.ctaTitle}>
-            Ready to experience faster,<br />
-            smarter deliveries in Lagos?
+            Let us take on your<br />next delivery.
           </h2>
-          <p className={styles.ctaSubtitle}>
-            Download HIILLA XBid on your smartphone or access the web dispatch console now.
-          </p>
-          <div className={styles.ctaBadgesWrap}>
-            <AppBadges theme="light" />
+          <div style={{ marginTop: 32, display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href="/become-a-rider" className="btn btn-primary">
+              Become A Dispatch
+            </Link>
+            <Link href="/become-a-fleet" className="btn btn-white">
+              Become A Fleet
+            </Link>
           </div>
         </div>
       </section>

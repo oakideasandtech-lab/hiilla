@@ -24,7 +24,6 @@ export const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Become A Dispatch', href: '/become-a-rider' },
   { label: 'Become A Fleet', href: '/become-a-fleet' },
-  { label: 'Fare Estimate', href: '/fare' },
   { label: 'Contact', href: '/contact' },
 ];
 

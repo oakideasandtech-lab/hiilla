@@ -1,508 +1,217 @@
-/* ── 1. Hero Section ── */
+/* ── 1. Centered Hero ── */
 .heroSection {
   position: relative;
   min-height: 92vh;
   display: flex;
   align-items: center;
-  padding: 80px 24px 100px;
+  justify-content: center;
   background-image: url('/assets/hero-bike.jpg');
   background-size: cover;
   background-position: center;
-  overflow: hidden;
+  color: #FFFFFF;
+  padding: 80px 24px;
+  text-align: center;
 }
 
-.heroBackdrop {
+.heroOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(11, 17, 32, 0.92) 0%, rgba(15, 23, 42, 0.88) 50%, rgba(229, 35, 42, 0.45) 100%);
+  /* Natural translucent tint so the bike & rider photo is completely visible */
+  background-color: rgba(11, 17, 32, 0.42);
   z-index: 1;
 }
 
-.heroContainer {
+.heroContent {
   position: relative;
   z-index: 2;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
-  width: 100%;
-}
-
-.heroGrid {
-  display: grid;
-  grid-template-columns: 1.2fr 0.9fr;
-  gap: 56px;
-  align-items: center;
-}
-
-.heroContent {
-  color: #FFFFFF;
-}
-
-.heroHeadline {
-  color: #FFFFFF;
-  font-size: clamp(38px, 5.5vw, 62px);
-  font-weight: 900;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  margin-bottom: 20px;
-}
-
-.highlightRed {
-  color: #E5232A;
-  background: linear-gradient(135deg, #FF6B6B 0%, #E5232A 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.heroSubtext {
-  color: #E2E8F0;
-  font-size: 1.12rem;
-  line-height: 1.7;
-  max-width: 540px;
-  margin-bottom: 32px;
-}
-
-.heroBadgesWrap {
-  margin-bottom: 36px;
-}
-
-.heroTrustBadges {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  flex-direction: column;
+  align-items: center;
 }
 
-.trustItem {
-  display: inline-flex;
+.heroTitle {
+  color: #FFFFFF;
+  font-size: clamp(38px, 6vw, 68px);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.heroLead {
+  margin-top: 24px;
+  font-size: 1.4rem;
+  color: #FFFFFF;
+  font-weight: 500;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.heroLead strong {
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.downloadArrow {
+  font-size: 1.8rem;
+  color: #FFFFFF;
+  margin: 4px 0 20px;
+  animation: bounceArrow 2s infinite ease-in-out;
+}
+
+@keyframes bounceArrow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+.heroBadges {
+  margin-bottom: 28px;
+}
+
+.heroTrustPills {
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 12px;
+  background-color: rgba(11, 17, 32, 0.6);
+  backdrop-filter: blur(8px);
+  padding: 8px 20px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.trustPill {
   font-size: 0.88rem;
   font-weight: 600;
   color: #F8FAFC;
 }
 
-.trustIcon {
-  font-size: 1.1rem;
-}
-
-/* ── Hero Quick Estimator Card ── */
-.heroWidgetWrap {
-  display: flex;
-  justify-content: center;
-}
-
-.calcCard {
-  background-color: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-  padding: 36px 32px;
-  width: 100%;
-  max-width: 440px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  color: #0F172A;
-}
-
-.calcHeader {
-  margin-bottom: 24px;
-}
-
-.calcBadge {
-  display: inline-block;
-  background-color: #FEE2E2;
+.trustDot {
   color: #E5232A;
-  font-size: 0.78rem;
-  font-weight: 800;
-  padding: 4px 12px;
-  border-radius: 9999px;
-  margin-bottom: 10px;
-}
-
-.calcHeader h3 {
-  font-size: 1.35rem;
-  font-weight: 800;
-  margin-bottom: 4px;
-  color: #0F172A;
-}
-
-.calcHeader p {
-  font-size: 0.85rem;
-  color: #64748B;
-}
-
-.calcForm {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.inputGroup label {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #334155;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.inputField {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: #F8FAFC;
-  border: 1.5px solid #E2E8F0;
-  border-radius: 12px;
-  padding: 10px 14px;
-  transition: all 0.2s ease;
-}
-
-.inputField:focus-within {
-  background-color: #FFFFFF;
-  border-color: #E5232A;
-  box-shadow: 0 0 0 3px rgba(229, 35, 42, 0.15);
-}
-
-.inputField input {
-  width: 100%;
-  border: none;
-  background: transparent;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #0F172A;
-  outline: none;
-}
-
-.fieldDotGreen {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #059669;
-  flex-shrink: 0;
-}
-
-.fieldDotRed {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #E5232A;
-  flex-shrink: 0;
-}
-
-.calcResult {
-  margin-top: 20px;
-  padding: 16px;
-  background-color: #FEF2F2;
-  border-radius: 14px;
-  border: 1px solid #FECACA;
-  text-align: center;
-}
-
-.resultLabel {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #991B1B;
-  text-transform: uppercase;
-}
-
-.resultAmount {
-  display: block;
-  font-size: 1.8rem;
   font-weight: 900;
-  color: #E5232A;
-  margin: 4px 0;
 }
 
-/* ── 2. Metric Counters Bar ── */
-.statsBar {
-  background-color: #0B1120;
-  color: #FFFFFF;
-  padding: 48px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.statsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 32px;
-  text-align: center;
-}
-
-.statCard {
-  padding: 12px;
-}
-
-.statNumber {
-  color: #E5232A;
-  font-size: clamp(32px, 3.5vw, 44px);
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  margin-bottom: 6px;
-}
-
-.statLabel {
-  color: #94A3B8;
-  font-size: 0.92rem;
-  font-weight: 600;
-}
-
-/* ── 3. App Experience Grid ── */
+/* ── 2. App Grid ── */
 .appGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 36px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  max-width: 1140px;
+  margin: 0 auto;
 }
 
-.appStepCard {
-  background-color: #FFFFFF;
-  border-radius: 24px;
-  padding: 32px 24px;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
+.appCard {
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.appStepCard:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
-  border-color: #CBD5E1;
-}
-
-.stepPill {
-  display: inline-block;
-  background-color: #0B1120;
-  color: #FFFFFF;
-  font-size: 0.78rem;
-  font-weight: 800;
-  padding: 4px 14px;
-  border-radius: 9999px;
-  margin-bottom: 20px;
 }
 
 .screenFrame {
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  margin-bottom: 24px;
-  max-width: 260px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  margin-bottom: 18px;
   background-color: #F1F5F9;
+  max-width: 320px;
 }
 
-.screenImage {
+.screenImg {
   width: 100%;
   height: auto;
   display: block;
 }
 
-.stepTitle {
-  font-size: 1.15rem;
-  font-weight: 800;
-  margin-bottom: 10px;
-  color: #0F172A;
-}
-
-.stepDesc {
-  font-size: 0.92rem;
-  color: #64748B;
+.screenCaption {
+  font-size: 0.95rem;
+  color: #475569;
   line-height: 1.6;
+  max-width: 290px;
 }
 
-/* ── 4. Business Section ── */
-.businessGrid {
+/* ── 3. Stats Grid ── */
+.statsGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.businessMediaWrap {
-  position: relative;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+.statCard {
+  text-align: center;
 }
 
-.businessImg {
-  width: 100%;
-  height: auto;
-  display: block;
+.statNumber {
+  font-size: clamp(38px, 4.5vw, 56px);
+  font-weight: 900;
+  color: #E5232A;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
-.mediaFloatCard {
-  position: absolute;
-  bottom: 24px;
-  left: 24px;
-  background: rgba(11, 17, 32, 0.94);
-  backdrop-filter: blur(12px);
-  color: #FFFFFF;
-  padding: 14px 20px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.floatDot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #E5232A;
-}
-
-.mediaFloatCard strong {
-  display: block;
-  font-size: 0.9rem;
-}
-
-.mediaFloatCard p {
-  font-size: 0.78rem;
-  color: #94A3B8;
-  margin: 0;
-}
-
-.businessContent {
-  display: flex;
-  flex-direction: column;
-}
-
-.businessIntro {
+.statLabel {
+  margin-top: 8px;
   font-size: 1.05rem;
-  line-height: 1.7;
-  margin: 16px 0 24px;
+  font-weight: 600;
   color: #475569;
 }
 
-.featurePillsList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.featureItem {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-.checkCircle {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background-color: #FEE2E2;
-  color: #E5232A;
-  font-weight: 900;
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-/* ── 5. Bento Grid ── */
-.bentoGrid {
+/* ── 5. Feature Grid ── */
+.featureGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  gap: 56px;
+  align-items: center;
 }
 
-.bentoCard {
-  background-color: #FFFFFF;
-  border-radius: 28px;
-  padding: 40px 36px;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
-  display: flex;
-  flex-direction: column;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.bentoCard:hover {
-  transform: translateY(-4px);
+.featureMedia {
+  border-radius: 18px;
+  overflow: hidden;
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
 }
 
-.bentoHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
+.featureImg {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
-.bentoIconWrap {
-  font-size: 2.2rem;
-}
-
-.bentoPill {
-  background-color: #F1F5F9;
-  color: #334155;
-  font-size: 0.78rem;
-  font-weight: 800;
-  padding: 4px 12px;
-  border-radius: 9999px;
-}
-
-.bentoCard h3 {
-  font-size: 1.45rem;
-  font-weight: 800;
-  margin-bottom: 12px;
+.featureBody h3 {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  margin-bottom: 20px;
   color: #0F172A;
 }
 
-.bentoCard p {
+.featureList {
+  margin: 0 0 28px 20px;
+  color: #475569;
+}
+
+.featureList li {
+  margin-bottom: 12px;
+  line-height: 1.6;
   font-size: 0.95rem;
-  line-height: 1.7;
-  color: #64748B;
-  margin-bottom: 20px;
-}
-
-.bentoList {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: auto;
-  padding-top: 16px;
-  border-top: 1px solid #F1F5F9;
-}
-
-.bentoList li {
-  font-size: 0.88rem;
-  color: #334155;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.bentoList li::before {
-  content: '✓';
-  color: #E5232A;
-  font-weight: 800;
 }
 
 /* ── 6. Video Section ── */
-.videoCard {
+.videoWrapper {
   position: relative;
   width: 100%;
-  max-width: 760px;
+  max-width: 680px;
   margin: 0 auto;
   padding-top: 56.25%;
-  border-radius: 24px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.videoCard iframe {
+.videoWrapper iframe {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -510,43 +219,23 @@
   border: 0;
 }
 
-/* ── 7. CTA Banner ── */
+/* ── 7. CTA Section ── */
 .ctaSection {
-  background: linear-gradient(135deg, #0B1120 0%, #111827 60%, #E5232A 140%);
+  background-color: #0B1120;
   color: #FFFFFF;
   padding: 100px 24px;
 }
 
 .ctaTitle {
   color: #FFFFFF;
-  font-size: clamp(32px, 4.5vw, 52px);
-  font-weight: 900;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 800;
   line-height: 1.2;
-  margin-bottom: 16px;
 }
 
-.ctaSubtitle {
-  color: #E2E8F0;
-  font-size: 1.15rem;
-  max-width: 580px;
-  margin: 0 auto 36px;
-}
-
-.ctaBadgesWrap {
-  display: flex;
-  justify-content: center;
-}
-
-/* ── Responsive ── */
-@media (max-width: 900px) {
-  .heroGrid,
-  .businessGrid,
-  .bentoGrid {
+@media (max-width: 860px) {
+  .featureGrid {
     grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .heroHeadline {
-    font-size: 36px;
+    gap: 36px;
   }
 }
