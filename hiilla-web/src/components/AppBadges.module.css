@@ -1,0 +1,29 @@
+.badgeRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.badgeLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  color: #ffffff;
+}
+
+.badgeLink:hover {
+  transform: scale(1.08);
+  opacity: 1;
+}
+
+.badgeRow svg {
+  width: 44px;
+  height: 44px;
+  fill: currentColor;
+}
+
+.dark .badgeLink {
+  color: #1a1919;
+}
