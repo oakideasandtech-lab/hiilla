@@ -151,7 +151,7 @@ export default function HomePage() {
               <p style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: 16 }}>
                 Download <strong>HIILLA XBid</strong> to make your delivery:
               </p>
-              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+              <div className={styles.featureBadges}>
                 <AppBadges theme="dark" />
               </div>
             </div>

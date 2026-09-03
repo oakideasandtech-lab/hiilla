@@ -66,6 +66,9 @@
 }
 
 .heroBadges {
+  display: flex;
+  justify-content: center;
+  width: 100%;
   margin-bottom: 28px;
 }
 
@@ -233,9 +236,19 @@
   line-height: 1.2;
 }
 
+.featureBadges {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
 @media (max-width: 860px) {
   .featureGrid {
     grid-template-columns: 1fr;
     gap: 36px;
+  }
+
+  .featureBadges {
+    justify-content: center;
   }
 }
