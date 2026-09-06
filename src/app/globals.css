@@ -231,6 +231,7 @@ p {
 .form-field input[type="email"],
 .form-field input[type="tel"],
 .form-field input[type="number"],
+.form-field input[type="password"],
 .form-field select,
 .form-field textarea {
   width: 100%;
