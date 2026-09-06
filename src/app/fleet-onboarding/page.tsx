@@ -58,6 +58,7 @@ export default function FleetPartnerOnboardingPage() {
     phone: '',
     email: '',
     password: '',
+    confirmPassword: '',
     fleetSize: '5',
     address: '',
   });
@@ -102,6 +103,16 @@ export default function FleetPartnerOnboardingPage() {
 
     if (!logoImage) {
       setErrorMessage('Please upload your company logo.');
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setErrorMessage('Passwords do not match. Please retype the exact password.');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setErrorMessage('Password must be at least 6 characters long.');
       return;
     }
 
@@ -333,39 +344,58 @@ export default function FleetPartnerOnboardingPage() {
                 </div>
               </div>
 
-              <div className="form-field">
-                <label htmlFor="password">Console Login Password *</label>
-                <div style={{ position: 'relative' }}>
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    id="password"
-                    name="password"
-                    required
-                    minLength={6}
-                    placeholder="Create a secure password (min. 6 characters)"
-                    value={formData.password}
-                    onChange={handleChange}
-                    style={{ paddingRight: 46 }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    style={{
-                      position: 'absolute',
-                      right: 12,
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontSize: 18,
-                      color: '#6B7280',
-                      padding: 4,
-                    }}
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  >
-                    {showPassword ? '🙈' : '👁️'}
-                  </button>
+              <div className="form-row">
+                <div className="form-field">
+                  <label htmlFor="password">Console Login Password *</label>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      id="password"
+                      name="password"
+                      required
+                      minLength={6}
+                      placeholder="Min. 6 characters"
+                      value={formData.password}
+                      onChange={handleChange}
+                      style={{ paddingRight: 46 }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{
+                        position: 'absolute',
+                        right: 12,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: 18,
+                        color: '#6B7280',
+                        padding: 4,
+                      }}
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showPassword ? '🙈' : '👁️'}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="form-field">
+                  <label htmlFor="confirmPassword">Confirm Password *</label>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      required
+                      minLength={6}
+                      placeholder="Confirm password"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      style={{ paddingRight: 46 }}
+                    />
+                  </div>
                 </div>
               </div>
 
