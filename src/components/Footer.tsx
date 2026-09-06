@@ -55,7 +55,7 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/fleet-onboarding" className={styles.footerLink}>
+              <Link href="/rider-onboarding-form" className={styles.footerLink}>
                 Rider Signup Form
               </Link>
             </li>
@@ -65,7 +65,7 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/rider-onboarding-form" className={styles.footerLink}>
+              <Link href="/fleet-onboarding" className={styles.footerLink}>
                 Fleet Partner Application
               </Link>
             </li>

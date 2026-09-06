@@ -52,7 +52,7 @@ export default function BecomeAFleetPage() {
           <p style={{ margin: '20px 0 32px', fontSize: '1.1rem' }}>
             Grow your dispatch fleet with HIILLA. Get started today.
           </p>
-          <Link href="/rider-onboarding-form" className="btn btn-primary">
+          <Link href="/fleet-onboarding" className="btn btn-primary">
             Onboard As Fleet
           </Link>
         </div>

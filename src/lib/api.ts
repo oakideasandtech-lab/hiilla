@@ -13,6 +13,7 @@ export interface DriverSignupData {
   email: string;
   mobile: string;
   password?: string;
+  profile_image?: string;
   carType: string;
   vehicleNumber: string;
   licenseNumber: string;
@@ -27,6 +28,7 @@ export interface FleetAdminSignupData {
   email: string;
   mobile: string;
   password?: string;
+  profile_image?: string;
   fleetSize: string | number;
   address?: string;
 }
@@ -93,6 +95,10 @@ export async function submitUserSignup(
       walletBalance: 0,
       createdAt: Date.now(),
     };
+
+    if (formData.profile_image) {
+      regData.profile_image = formData.profile_image;
+    }
 
     if (usertype === 'driver') {
       const driverData = formData as DriverSignupData;
