@@ -2,12 +2,19 @@
 
 import { useState } from 'react';
 import { ADDRESS } from '@/lib/constants';
+import GoogleReCaptcha from '@/components/GoogleReCaptcha';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!recaptchaToken) {
+      setErrorMessage('Please complete the reCAPTCHA security verification.');
+      return;
+    }
     setSubmitted(true);
   };
 
@@ -49,6 +56,22 @@ export default function ContactPage() {
             <form onSubmit={handleSubmit}>
               <h3 style={{ fontSize: 18, marginBottom: 20 }}>Personal Information</h3>
 
+              {errorMessage && (
+                <div
+                  style={{
+                    backgroundColor: '#FEF2F2',
+                    border: '1px solid #F87171',
+                    color: '#991B1B',
+                    padding: '12px 16px',
+                    borderRadius: 8,
+                    marginBottom: 20,
+                    fontSize: 14,
+                  }}
+                >
+                  {errorMessage}
+                </div>
+              )}
+
               <div className="form-row">
                 <div className="form-field">
                   <label htmlFor="first-name">First Name *</label>
@@ -86,6 +109,14 @@ export default function ContactPage() {
                 <label htmlFor="message">Message *</label>
                 <textarea id="message" name="message" required placeholder="Tell us how we can help you..." />
               </div>
+
+              <GoogleReCaptcha
+                onVerify={(token) => {
+                  setRecaptchaToken(token);
+                  setErrorMessage(null);
+                }}
+                onExpire={() => setRecaptchaToken(null)}
+              />
 
               <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: 8 }}>
                 Send Message

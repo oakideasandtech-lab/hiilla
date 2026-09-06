@@ -52,7 +52,7 @@ export default function BecomeARiderPage() {
           <p style={{ margin: '20px 0 32px', fontSize: '1.1rem' }}>
             Ready to hit the road? Begin your journey with HIILLA today.
           </p>
-          <Link href="/rider-onboarding-form" className="btn btn-primary">
+          <Link href="/fleet-onboarding" className="btn btn-primary">
             Start Onboarding
           </Link>
         </div>

@@ -5,6 +5,7 @@ export const SITE_DESCRIPTION =
   'HIILLA is an e-hailing bike delivery service providing a central platform to third-party dispatch companies and individuals easing the problems of delivery service across major cities in Lagos.';
 export const SITE_URL = 'https://hiilla.com';
 export const APP_URL = 'https://app.hiilla.com';
+export const RECAPTCHA_SITE_KEY = '6Lf1xqwtAAAAAEU1gElBOgpUatOr_BQT2ftW8seX';
 
 export const APP_LINKS = {
   playStore: 'https://play.google.com/store/apps/details?id=com.hiillax.bid',

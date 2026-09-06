@@ -3,22 +3,72 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { APP_URL } from '@/lib/constants';
+import { submitUserSignup } from '@/lib/api';
+import GoogleReCaptcha from '@/components/GoogleReCaptcha';
 
-export default function RiderOnboardingPage() {
+export default function FleetPartnerOnboardingPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Form State
+  const [formData, setFormData] = useState({
+    companyName: '',
+    contactPerson: '',
+    phone: '',
+    email: '',
+    password: '',
+    fleetSize: '5',
+    address: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errorMessage) setErrorMessage(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (!recaptchaToken) {
+      setErrorMessage('Please complete the reCAPTCHA security verification.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    const result = await submitUserSignup(
+      'fleetadmin',
+      {
+        companyName: formData.companyName,
+        contactPerson: formData.contactPerson,
+        mobile: formData.phone,
+        email: formData.email,
+        password: formData.password,
+        fleetSize: formData.fleetSize,
+        address: formData.address,
+      },
+      recaptchaToken
+    );
+
+    setIsSubmitting(false);
+
+    if (result.success) {
+      setSubmitted(true);
+    } else {
+      setErrorMessage(result.error || 'Failed to complete fleet registration. Please check your details.');
+    }
   };
 
   return (
     <section className="section">
       <div className="container">
         <div className="text-center" style={{ marginBottom: 40 }}>
-          <h1>Rider Onboarding</h1>
+          <h1>Fleet Partner Onboarding</h1>
           <p style={{ fontSize: '1.1rem', marginTop: 12 }}>
-            Complete your onboarding application to start receiving delivery orders across Lagos.
+            Register your logistics company or multi-bike fleet to start managing dispatch operations and receiving weekly payouts on HIILLA.
           </p>
         </div>
 
@@ -27,86 +77,154 @@ export default function RiderOnboardingPage() {
             <div style={{ textAlign: 'center', padding: '32px 16px' }}>
               <div
                 style={{
-                  width: 64,
-                  height: 64,
+                  width: 68,
+                  height: 68,
                   borderRadius: '50%',
                   backgroundColor: '#ECFDF5',
                   color: '#059669',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: 32,
+                  fontSize: 34,
                   margin: '0 auto 20px',
                 }}
               >
                 ✓
               </div>
-              <h2>Application Submitted!</h2>
+              <h2>Fleet Application Received!</h2>
               <p style={{ margin: '16px 0 28px', lineHeight: 1.7 }}>
-                Thank you for applying to join the HIILLA rider network. Our fleet verification officer will review your documents and contact you within 24 hours.
+                Your Fleet Partner profile has been registered in the HIILLA Fleet registry. Our corporate onboarding team will review your organization details and activate your dispatch console access.
               </p>
               <Link href={APP_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                Download Rider App
+                Open Web Dispatch Console
               </Link>
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
-              <h3 style={{ fontSize: 18, marginBottom: 20 }}>Rider Information</h3>
+              <h3 style={{ fontSize: 18, marginBottom: 20 }}>Company &amp; Fleet Details</h3>
+
+              {errorMessage && (
+                <div
+                  style={{
+                    backgroundColor: '#FEF2F2',
+                    border: '1px solid #F87171',
+                    color: '#991B1B',
+                    padding: '12px 16px',
+                    borderRadius: 8,
+                    marginBottom: 20,
+                    fontSize: 14,
+                  }}
+                >
+                  {errorMessage}
+                </div>
+              )}
+
+              <div className="form-field">
+                <label htmlFor="companyName">Registered Company Name *</label>
+                <input
+                  type="text"
+                  id="companyName"
+                  name="companyName"
+                  required
+                  placeholder="Express Logistics Nigeria Ltd"
+                  value={formData.companyName}
+                  onChange={handleChange}
+                />
+              </div>
 
               <div className="form-row">
                 <div className="form-field">
-                  <label htmlFor="first-name">First Name *</label>
-                  <input type="text" id="first-name" required placeholder="Tunde" />
+                  <label htmlFor="contactPerson">Primary Contact Person (Full Name) *</label>
+                  <input
+                    type="text"
+                    id="contactPerson"
+                    name="contactPerson"
+                    required
+                    placeholder="Chidi Okeke"
+                    value={formData.contactPerson}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="form-field">
-                  <label htmlFor="last-name">Last Name *</label>
-                  <input type="text" id="last-name" required placeholder="Balogun" />
+                  <label htmlFor="fleetSize">Fleet Size (Active Delivery Bikes) *</label>
+                  <input
+                    type="number"
+                    id="fleetSize"
+                    name="fleetSize"
+                    min="1"
+                    required
+                    placeholder="5"
+                    value={formData.fleetSize}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-field">
-                  <label htmlFor="phone">Mobile Phone (WhatsApp) *</label>
-                  <input type="tel" id="phone" required placeholder="+234 801 234 5678" />
+                  <label htmlFor="phone">Phone Number *</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    required
+                    placeholder="08012345678"
+                    value={formData.phone}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="form-field">
-                  <label htmlFor="email">Email Address *</label>
-                  <input type="email" id="email" required placeholder="tunde@example.com" />
+                  <label htmlFor="email">Official Business Email *</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    placeholder="fleet@yourcompany.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
 
               <div className="form-field">
-                <label htmlFor="vehicle-type">Vehicle / Bike Category *</label>
-                <select id="vehicle-type" defaultValue="bike">
-                  <option value="bike">Motorcycle (Dispatch Bike)</option>
-                  <option value="tricycle">Tricycle (Keke)</option>
-                  <option value="van">Mini Van / Delivery Bus</option>
-                  <option value="car">Saloon Car</option>
-                </select>
-              </div>
-
-              <div className="form-row">
-                <div className="form-field">
-                  <label htmlFor="plate">Vehicle Plate Number *</label>
-                  <input type="text" id="plate" required placeholder="AAA-123XY" />
-                </div>
-                <div className="form-field">
-                  <label htmlFor="license">Rider’s License Number *</label>
-                  <input type="text" id="license" required placeholder="RDL-XXXX-XXXX" />
-                </div>
+                <label htmlFor="password">Console Login Password *</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  minLength={6}
+                  placeholder="Create a secure password (min. 6 characters)"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
               </div>
 
               <div className="form-field">
-                <label htmlFor="area">Preferred Operating Hub (Lagos)</label>
-                <select id="area" defaultValue="mainland">
-                  <option value="mainland">Lagos Mainland (Ikeja, Yaba, Surulere, Maryland)</option>
-                  <option value="island">Lagos Island (Lekki, Victoria Island, Ikoyi, Ajah)</option>
-                  <option value="all">All Lagos Zones</option>
-                </select>
+                <label htmlFor="address">Office Address (Lagos)</label>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  placeholder="12 Ikorodu Road, Maryland, Lagos"
+                  value={formData.address}
+                  onChange={handleChange}
+                />
               </div>
 
-              <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: 12 }}>
-                Submit Onboarding Application
+              <GoogleReCaptcha
+                onVerify={(token) => setRecaptchaToken(token)}
+                onExpire={() => setRecaptchaToken(null)}
+              />
+
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ width: '100%', marginTop: 16 }}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Submitting Fleet Profile...' : 'Submit Fleet Partnership Application'}
               </button>
             </form>
           )}

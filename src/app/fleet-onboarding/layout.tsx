@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Fleet Partner Onboarding Application',
-  description: 'Register your logistics company or fleet of delivery vehicles with HIILLA.',
+  title: 'Rider & Dispatch Onboarding Application',
+  description: 'Join the HIILLA dispatch rider network and start earning across Lagos.',
 };
 
 export default function FleetOnboardingLayout({

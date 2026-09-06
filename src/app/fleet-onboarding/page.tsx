@@ -1,24 +1,102 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { APP_URL } from '@/lib/constants';
+import { APP_LINKS, APP_URL } from '@/lib/constants';
+import { fetchCarTypes, submitUserSignup, CarTypeItem } from '@/lib/api';
+import GoogleReCaptcha from '@/components/GoogleReCaptcha';
 
-export default function FleetOnboardingPage() {
+export default function RiderOnboardingPage() {
+  const [carTypes, setCarTypes] = useState<CarTypeItem[]>([]);
+  const [loadingCarTypes, setLoadingCarTypes] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Form State
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+    password: '',
+    carType: '',
+    plate: '',
+    license: '',
+    area: 'mainland',
+  });
+
+  useEffect(() => {
+    async function loadVehicleTypes() {
+      try {
+        const types = await fetchCarTypes();
+        setCarTypes(types);
+        if (types.length > 0) {
+          setFormData((prev) => ({ ...prev, carType: types[0].name }));
+        }
+      } catch (err) {
+        console.error('Failed to load cartypes:', err);
+      } finally {
+        setLoadingCarTypes(false);
+      }
+    }
+    loadVehicleTypes();
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errorMessage) setErrorMessage(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (!recaptchaToken) {
+      setErrorMessage('Please complete the reCAPTCHA security verification.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    const result = await submitUserSignup(
+      'driver',
+      {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        mobile: formData.phone,
+        email: formData.email,
+        password: formData.password,
+        carType: formData.carType || (carTypes[0]?.name ?? 'BIKE'),
+        vehicleNumber: formData.plate,
+        licenseNumber: formData.license,
+        operatingHub:
+          formData.area === 'island'
+            ? 'Lagos Island (Lekki, VI, Ikoyi)'
+            : formData.area === 'all'
+            ? 'All Lagos Zones'
+            : 'Lagos Mainland (Ikeja, Yaba, Surulere)',
+      },
+      recaptchaToken
+    );
+
+    setIsSubmitting(false);
+
+    if (result.success) {
+      setSubmitted(true);
+    } else {
+      setErrorMessage(result.error || 'Failed to complete signup. Please check your information.');
+    }
   };
 
   return (
     <section className="section">
       <div className="container">
         <div className="text-center" style={{ marginBottom: 40 }}>
-          <h1>Fleet Partner Onboarding</h1>
+          <h1>Rider &amp; Dispatch Onboarding</h1>
           <p style={{ fontSize: '1.1rem', marginTop: 12 }}>
-            Register your logistics company or multi-bike fleet to start managing and earning on HIILLA.
+            Register your delivery vehicle or dispatch bike to join the HIILLA network and start earning across Lagos.
           </p>
         </div>
 
@@ -27,66 +105,203 @@ export default function FleetOnboardingPage() {
             <div style={{ textAlign: 'center', padding: '32px 16px' }}>
               <div
                 style={{
-                  width: 64,
-                  height: 64,
+                  width: 68,
+                  height: 68,
                   borderRadius: '50%',
                   backgroundColor: '#ECFDF5',
                   color: '#059669',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: 32,
+                  fontSize: 34,
                   margin: '0 auto 20px',
                 }}
               >
                 ✓
               </div>
-              <h2>Fleet Application Received!</h2>
+              <h2>Application Received!</h2>
               <p style={{ margin: '16px 0 28px', lineHeight: 1.7 }}>
-                Our corporate fleet partnerships team will contact you within 24 hours to finalize your dispatch admin portal setup.
+                Your rider application has been submitted to the HIILLA Driver registry. Once our verification team reviews and approves your account, you can log directly into the Driver App.
               </p>
-              <Link href={APP_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                Open Web Console
-              </Link>
+
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                <a
+                  href={APP_LINKS.playStore}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary"
+                >
+                  Download on Google Play
+                </a>
+                <a
+                  href={APP_LINKS.appStore}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-outline"
+                >
+                  Download on App Store
+                </a>
+              </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
-              <h3 style={{ fontSize: 18, marginBottom: 20 }}>Company &amp; Fleet Details</h3>
+              <h3 style={{ fontSize: 18, marginBottom: 20 }}>Rider Account Details</h3>
 
-              <div className="form-field">
-                <label htmlFor="company-name">Registered Company Name *</label>
-                <input type="text" id="company-name" required placeholder="Express Logistics Nigeria Ltd" />
+              {errorMessage && (
+                <div
+                  style={{
+                    backgroundColor: '#FEF2F2',
+                    border: '1px solid #F87171',
+                    color: '#991B1B',
+                    padding: '12px 16px',
+                    borderRadius: 8,
+                    marginBottom: 20,
+                    fontSize: 14,
+                  }}
+                >
+                  {errorMessage}
+                </div>
+              )}
+
+              <div className="form-row">
+                <div className="form-field">
+                  <label htmlFor="firstName">First Name *</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    required
+                    placeholder="Tunde"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-field">
+                  <label htmlFor="lastName">Last Name *</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    required
+                    placeholder="Balogun"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
 
               <div className="form-row">
                 <div className="form-field">
-                  <label htmlFor="contact-person">Primary Contact Person *</label>
-                  <input type="text" id="contact-person" required placeholder="Chidi Okeke" />
+                  <label htmlFor="phone">Mobile Phone (WhatsApp) *</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    required
+                    placeholder="08012345678"
+                    value={formData.phone}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="form-field">
-                  <label htmlFor="fleet-size">Fleet Size (Active Vehicles) *</label>
-                  <input type="number" id="fleet-size" min="1" required placeholder="5" />
-                </div>
-              </div>
-
-              <div className="form-row">
-                <div className="form-field">
-                  <label htmlFor="phone">Phone Number *</label>
-                  <input type="tel" id="phone" required placeholder="+234 801 234 5678" />
-                </div>
-                <div className="form-field">
-                  <label htmlFor="email">Official Business Email *</label>
-                  <input type="email" id="email" required placeholder="fleet@yourcompany.com" />
+                  <label htmlFor="email">Email Address *</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    placeholder="tunde@example.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
 
               <div className="form-field">
-                <label htmlFor="head-office">Office Address (Lagos)</label>
-                <input type="text" id="head-office" placeholder="12 Ikorodu Road, Maryland, Lagos" />
+                <label htmlFor="password">App Login Password *</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  minLength={6}
+                  placeholder="Create a secure password (min. 6 characters)"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
               </div>
 
-              <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: 12 }}>
-                Submit Fleet Partnership Application
+              <h3 style={{ fontSize: 18, margin: '24px 0 16px' }}>Vehicle &amp; License Information</h3>
+
+              <div className="form-field">
+                <label htmlFor="carType">Vehicle / Bike Category *</label>
+                <select
+                  id="carType"
+                  name="carType"
+                  value={formData.carType}
+                  onChange={handleChange}
+                  disabled={loadingCarTypes}
+                >
+                  {carTypes.length > 0 ? (
+                    carTypes.map((type) => (
+                      <option key={type.id} value={type.name}>
+                        {type.name} {type.extra_info ? `(${type.extra_info})` : ''}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="BIKE">BIKE (Motorcycle / Dispatch Bike)</option>
+                  )}
+                </select>
+              </div>
+
+              <div className="form-row">
+                <div className="form-field">
+                  <label htmlFor="plate">Vehicle Plate Number *</label>
+                  <input
+                    type="text"
+                    id="plate"
+                    name="plate"
+                    required
+                    placeholder="AAA-123XY"
+                    value={formData.plate}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-field">
+                  <label htmlFor="license">Rider’s License Number *</label>
+                  <input
+                    type="text"
+                    id="license"
+                    name="license"
+                    required
+                    placeholder="RDL-XXXX-XXXX"
+                    value={formData.license}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="area">Preferred Operating Hub (Lagos)</label>
+                <select id="area" name="area" value={formData.area} onChange={handleChange}>
+                  <option value="mainland">Lagos Mainland (Ikeja, Yaba, Surulere, Maryland)</option>
+                  <option value="island">Lagos Island (Lekki, Victoria Island, Ikoyi, Ajah)</option>
+                  <option value="all">All Lagos Zones</option>
+                </select>
+              </div>
+
+              <GoogleReCaptcha
+                onVerify={(token) => setRecaptchaToken(token)}
+                onExpire={() => setRecaptchaToken(null)}
+              />
+
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ width: '100%', marginTop: 16 }}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Registering Rider Account...' : 'Submit Rider Application'}
               </button>
             </form>
           )}
