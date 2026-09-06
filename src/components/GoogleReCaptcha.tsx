@@ -1,104 +1,101 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { RECAPTCHA_SITE_KEY } from '@/lib/constants';
 
 interface GoogleReCaptchaProps {
-  siteKey?: string;
-  onVerify: (token: string) => void;
-  onExpire?: () => void;
-  onError?: () => void;
-  theme?: 'light' | 'dark';
+  action?: string;
 }
 
 declare global {
   interface Window {
-    grecaptcha?: any;
-    onRecaptchaLoadCallback?: () => void;
+    grecaptcha?: {
+      ready: (callback: () => void) => void;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+      render?: any;
+    };
   }
 }
 
-export default function GoogleReCaptcha({
-  siteKey = RECAPTCHA_SITE_KEY,
-  onVerify,
-  onExpire,
-  onError,
-  theme = 'light',
-}: GoogleReCaptchaProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const widgetIdRef = useRef<number | null>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+/**
+ * Execute reCAPTCHA v3 to obtain verification token
+ */
+export async function executeRecaptcha(action: string = 'submit'): Promise<string | null> {
+  if (typeof window === 'undefined') return null;
 
-  useEffect(() => {
-    // Check if script already exists in document
-    const scriptId = 'google-recaptcha-script';
-    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
-
-    const renderWidget = () => {
-      if (window.grecaptcha && window.grecaptcha.render && containerRef.current) {
-        // Prevent duplicate rendering
-        if (widgetIdRef.current !== null) {
+  return new Promise((resolve) => {
+    const checkAndExecute = () => {
+      if (typeof window !== 'undefined' && window.grecaptcha) {
+        const grecaptcha = window.grecaptcha;
+        grecaptcha.ready(async () => {
           try {
-            window.grecaptcha.reset(widgetIdRef.current);
-          } catch (e) {
-            // Widget might not exist anymore
+            const token = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action });
+            resolve(token);
+          } catch (err) {
+            console.warn('reCAPTCHA execution error:', err);
+            resolve(null);
           }
-          return;
-        }
-
-        try {
-          const id = window.grecaptcha.render(containerRef.current, {
-            sitekey: siteKey,
-            theme: theme,
-            callback: (token: string) => {
-              onVerify(token);
-            },
-            'expired-callback': () => {
-              if (onExpire) onExpire();
-            },
-            'error-callback': () => {
-              if (onError) onError();
-            },
-          });
-          widgetIdRef.current = id;
-          setIsLoaded(true);
-        } catch (err) {
-          console.warn('reCAPTCHA render error:', err);
-        }
+        });
+      } else {
+        resolve(null);
       }
     };
 
-    if (!script) {
-      window.onRecaptchaLoadCallback = () => {
-        renderWidget();
-      };
+    if (window.grecaptcha) {
+      checkAndExecute();
+    } else {
+      // Wait briefly for script to finish initializing if just mounted
+      let attempts = 0;
+      const interval = setInterval(() => {
+        attempts++;
+        if (window.grecaptcha) {
+          clearInterval(interval);
+          checkAndExecute();
+        } else if (attempts > 20) {
+          clearInterval(interval);
+          resolve(null);
+        }
+      }, 100);
+    }
+  });
+}
 
+export default function GoogleReCaptchaBadge() {
+  useEffect(() => {
+    const scriptId = 'google-recaptcha-v3-script';
+    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
+
+    if (!script) {
       script = document.createElement('script');
       script.id = scriptId;
-      script.src = `https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoadCallback&render=explicit`;
+      script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);
-    } else {
-      if (window.grecaptcha && window.grecaptcha.render) {
-        renderWidget();
-      } else {
-        const prevCallback = window.onRecaptchaLoadCallback;
-        window.onRecaptchaLoadCallback = () => {
-          if (prevCallback) prevCallback();
-          renderWidget();
-        };
-      }
     }
-
-    return () => {
-      // Cleanup if necessary
-    };
-  }, [siteKey, onVerify, onExpire, onError, theme]);
+  }, []);
 
   return (
-    <div style={{ margin: '16px 0', minHeight: 78, display: 'flex', justifyContent: 'flex-start' }}>
-      <div ref={containerRef} />
-    </div>
+    <p style={{ fontSize: '0.78rem', color: '#6B7280', marginTop: 14, lineHeight: 1.5 }}>
+      This site is protected by reCAPTCHA and the Google{' '}
+      <a
+        href="https://policies.google.com/privacy"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ color: '#059669', textDecoration: 'underline' }}
+      >
+        Privacy Policy
+      </a>{' '}
+      and{' '}
+      <a
+        href="https://policies.google.com/terms"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ color: '#059669', textDecoration: 'underline' }}
+      >
+        Terms of Service
+      </a>{' '}
+      apply.
+    </p>
   );
 }

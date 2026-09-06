@@ -2,19 +2,15 @@
 
 import { useState } from 'react';
 import { ADDRESS } from '@/lib/constants';
-import GoogleReCaptcha from '@/components/GoogleReCaptcha';
+import GoogleReCaptchaBadge, { executeRecaptcha } from '@/components/GoogleReCaptcha';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!recaptchaToken) {
-      setErrorMessage('Please complete the reCAPTCHA security verification.');
-      return;
-    }
+    await executeRecaptcha('contact_form');
     setSubmitted(true);
   };
 
@@ -110,13 +106,7 @@ export default function ContactPage() {
                 <textarea id="message" name="message" required placeholder="Tell us how we can help you..." />
               </div>
 
-              <GoogleReCaptcha
-                onVerify={(token) => {
-                  setRecaptchaToken(token);
-                  setErrorMessage(null);
-                }}
-                onExpire={() => setRecaptchaToken(null)}
-              />
+              <GoogleReCaptchaBadge />
 
               <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: 8 }}>
                 Send Message

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { APP_LINKS, APP_URL } from '@/lib/constants';
 import { fetchCarTypes, submitUserSignup, CarTypeItem } from '@/lib/api';
-import GoogleReCaptcha from '@/components/GoogleReCaptcha';
+import GoogleReCaptchaBadge, { executeRecaptcha } from '@/components/GoogleReCaptcha';
 
 export default function RiderOnboardingPage() {
   const [carTypes, setCarTypes] = useState<CarTypeItem[]>([]);
@@ -12,7 +12,6 @@ export default function RiderOnboardingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -52,13 +51,11 @@ export default function RiderOnboardingPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!recaptchaToken) {
-      setErrorMessage('Please complete the reCAPTCHA security verification.');
-      return;
-    }
-
     setIsSubmitting(true);
     setErrorMessage(null);
+
+    // Get reCAPTCHA v3 verification token
+    const token = await executeRecaptcha('rider_signup');
 
     const result = await submitUserSignup(
       'driver',
@@ -78,7 +75,7 @@ export default function RiderOnboardingPage() {
             ? 'All Lagos Zones'
             : 'Lagos Mainland (Ikeja, Yaba, Surulere)',
       },
-      recaptchaToken
+      token || undefined
     );
 
     setIsSubmitting(false);
@@ -290,10 +287,7 @@ export default function RiderOnboardingPage() {
                 </select>
               </div>
 
-              <GoogleReCaptcha
-                onVerify={(token) => setRecaptchaToken(token)}
-                onExpire={() => setRecaptchaToken(null)}
-              />
+              <GoogleReCaptchaBadge />
 
               <button
                 type="submit"

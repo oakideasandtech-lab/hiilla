@@ -4,13 +4,12 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { APP_URL } from '@/lib/constants';
 import { submitUserSignup } from '@/lib/api';
-import GoogleReCaptcha from '@/components/GoogleReCaptcha';
+import GoogleReCaptchaBadge, { executeRecaptcha } from '@/components/GoogleReCaptcha';
 
 export default function FleetPartnerOnboardingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -31,13 +30,11 @@ export default function FleetPartnerOnboardingPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!recaptchaToken) {
-      setErrorMessage('Please complete the reCAPTCHA security verification.');
-      return;
-    }
-
     setIsSubmitting(true);
     setErrorMessage(null);
+
+    // Get reCAPTCHA v3 verification token
+    const token = await executeRecaptcha('fleet_signup');
 
     const result = await submitUserSignup(
       'fleetadmin',
@@ -50,7 +47,7 @@ export default function FleetPartnerOnboardingPage() {
         fleetSize: formData.fleetSize,
         address: formData.address,
       },
-      recaptchaToken
+      token || undefined
     );
 
     setIsSubmitting(false);
@@ -213,10 +210,7 @@ export default function FleetPartnerOnboardingPage() {
                 />
               </div>
 
-              <GoogleReCaptcha
-                onVerify={(token) => setRecaptchaToken(token)}
-                onExpire={() => setRecaptchaToken(null)}
-              />
+              <GoogleReCaptchaBadge />
 
               <button
                 type="submit"
